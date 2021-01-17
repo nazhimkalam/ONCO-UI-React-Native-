@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Button, Image, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import LoginWelcome from './LoginWelcome';
 import LockIcon from '@material-ui/icons/Lock';
@@ -16,6 +16,9 @@ const Login = () => {
 	// 		setDisplayWelcome(false);
 	// 	}, 5000);
 	// }, []);
+
+	const onClickLogin = () => {};
+	const onClickGoogleLogin = () => {};
 
 	return (
 		<View style={style.container}>
@@ -70,10 +73,27 @@ const Login = () => {
 						</View>
 
 						{/* login button */}
+						<View style={{ margin: 10 }}>
+							<View style={style.login__buttons}>
+								<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
+							</View>
 
-						{/* Google login */}
+							<Text style={{ alignSelf: 'center', margin: 15, fontWeight: 600, color: '#2c7c8c' }}>
+								Or connect using Google
+							</Text>
+
+							{/* Google login */}
+							<View style={style.login__buttonsGOOGLE}>
+								<Button onPress={onClickGoogleLogin} bo title="Google" color="red" />
+							</View>
+						</View>
 
 						{/* Sign Up Footer */}
+						<View style={style.login__footer}>
+							<Text style={{ alignSelf: 'center' }}>
+								Don't have an account? <span>Sign Up</span>
+							</Text>
+						</View>
 					</View>
 				</>
 			)}
@@ -90,6 +110,7 @@ const style = {
 	login__container: {
 		backgroundColor: '#DEF9FF',
 		flex: '1',
+		justifyContent: 'space-between',
 	},
 	logo: {
 		height: '20px',
@@ -145,6 +166,24 @@ const style = {
 		backgroundColor: 'white',
 		alignItems: 'center',
 	},
-	login__forgotPasswordLink: { alignSelf: 'flex-end', marginRight: 15, marginTop: 5, fontWeight: 600, color: '#2c7c8c' },
+	login__forgotPasswordLink: {
+		alignSelf: 'flex-end',
+		marginRight: 15,
+		marginTop: 5,
+		fontWeight: 600,
+		color: '#2c7c8c',
+	},
+	login__buttons: { width: 120, alignSelf: 'center', borderRadius: 30, overflow: 'hidden' },
+	login__buttonsGOOGLE: {
+		width: 120,
+		alignSelf: 'center',
+		borderRadius: 5,
+		overflow: 'hidden',
+	},
+	login__footer: {
+		border: '1px black solid',
+		position: 'relative',
+		bottom: 0,
+	},
 };
 export default Login;
