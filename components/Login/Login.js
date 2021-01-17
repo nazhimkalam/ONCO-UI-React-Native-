@@ -1,7 +1,7 @@
 import LockIcon from '@material-ui/icons/Lock';
 import PersonIcon from '@material-ui/icons/Person';
 import React, { useEffect, useState } from 'react';
-import { Animated, Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Animated, Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import LoginWelcome from './LoginWelcome';
 
@@ -80,6 +80,66 @@ const Login = () => {
 		console.log('You Clicked Sign in');
 	};
 
+	const onClickConfirmChangePass = () => {
+		// checking if the new password and confirm password is more than 5 chars and both are equal
+
+		if (!newPassword && !confirmPassword) {
+			setNewPassword('Enter New Password!');
+			setConfirmPassword('Enter Confirm New Password!');
+			setValidNewPassword(false);
+			setValidConfirmPassword(false);
+		} else if (newPassword.length < 6) {
+			setNewPassword('Enter at least 6 characters!');
+			setValidNewPassword(false);
+		} else if (confirmPassword.length < 6) {
+			setConfirmPassword('Enter at least 6 characters!');
+			setValidConfirmPassword(false);
+		} else if (newPassword !== confirmPassword) {
+			setConfirmPassword('Invalid Confirm Password!');
+			setValidConfirmPassword(false);
+		} else {
+			// This means all good to go
+
+			// displays an alert on if any errors occurred or success message
+			Alert.alert(
+				'Alert Title',
+				'My Alert Msg',
+				[
+					{
+						text: 'Ask me later',
+						onPress: () => console.log('Ask me later pressed'),
+					},
+					{
+						text: 'Cancel',
+						onPress: () => console.log('Cancel Pressed'),
+						style: 'cancel',
+					},
+					{ text: 'OK', onPress: () => console.log('OK Pressed') },
+				],
+				{ cancelable: false }
+			);
+
+			// redirecting when the password is RESET!
+			setClickForgetPassword(false);
+			setNewPassword('');
+			setValidConfirmPassword(true);
+			setValidNewPassword(true);
+			setConfirmPassword('');
+		}
+	};
+
+	const onClickForgotPassword = () => {
+		let isEmailValidAndPresentInFirebase = true;
+
+		// we set the click forget password to true only when the user has entered valid email stored in the firebase
+		if (isEmailValidAndPresentInFirebase) {
+			setClickForgetPassword(true);
+		} else {
+			setEmail('This Email is not Registered or invalid!');
+			setValidEmail(false);
+		}
+	};
+
 	return (
 		<SafeAreaView style={style.container}>
 			{displayWelcome ? (
@@ -144,7 +204,7 @@ const Login = () => {
 										/>
 									</View>
 
-									<Text style={style.login__forgotPasswordLink} onPress={() => setClickForgetPassword(true)}>
+									<Text style={style.login__forgotPasswordLink} onPress={onClickForgotPassword}>
 										Forgot Password?
 									</Text>
 								</>
@@ -190,12 +250,17 @@ const Login = () => {
 							)}
 						</View>
 
-
 						{/* login button */}
 						<View style={{ margin: 10 }}>
-							<View style={style.login__buttons}>
-								<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
-							</View>
+							{clickForgetPassword ? (
+								<View style={style.login__buttons}>
+									<Button onPress={onClickConfirmChangePass} title="Confirm" color="#01CDFA" />
+								</View>
+							) : (
+								<View style={style.login__buttons}>
+									<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
+								</View>
+							)}
 
 							<Text style={{ alignSelf: 'center', margin: 15, fontWeight: 600, color: '#2c7c8c' }}>
 								Or connect using Google
