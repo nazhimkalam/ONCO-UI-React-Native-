@@ -6,16 +6,16 @@ import LockIcon from '@material-ui/icons/Lock';
 import PersonIcon from '@material-ui/icons/Person';
 
 const Login = () => {
-	const [displayWelcome, setDisplayWelcome] = useState(false);
+	const [displayWelcome, setDisplayWelcome] = useState(true);
 	const [email, setEmail] = useState('Email Address');
 	const [password, setPassword] = useState('Password');
 
 	// this is to update the displayWelcome component after a given time
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setDisplayWelcome(false);
-	// 	}, 5000);
-	// }, []);
+	useEffect(() => {
+		setTimeout(() => {
+			setDisplayWelcome(false);
+		}, 5000);
+	}, []);
 
 	const onClickLogin = () => {};
 	const onClickGoogleLogin = () => {};
@@ -113,8 +113,8 @@ const style = {
 		justifyContent: 'space-between',
 	},
 	logo: {
-		height: '20px',
-		margin: '30px',
+		height: '25px',
+		margin: '55px',
 		resizeMode: 'contain',
 	},
 	login__header: {
@@ -181,7 +181,7 @@ const style = {
 		overflow: 'hidden',
 	},
 	login__footer: {
-		border: '1px black solid',
+		// border: '1px black solid',
 		position: 'relative',
 		backgroundColor: 'white',
 		bottom: 0,
