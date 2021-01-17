@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Image, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import LoginWelcome from './LoginWelcome';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 
 const Login = () => {
 	const [displayWelcome, setDisplayWelcome] = useState(false);
@@ -46,13 +48,13 @@ const Login = () => {
 						<View style={style.login__inputContainer}>
 							<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
 							<TextInput
-								style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+								style={style.login__inputContainerInputs}
 								onChangeText={(text) => setEmail(text)}
 								textContentType="emailAddress"
-								value={email}
+								value={<PersonOutlineOutlinedIcon /> +  " " + email}
 							/>
 							<TextInput
-								style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+								style={style.login__inputContainerInputs}
 								onChangeText={(text) => setPassword(text)}
 								textContentType="password"
 								value={password}
@@ -118,5 +120,6 @@ const style = {
 		fontWeight: 600,
 		color: '#2c7c8c',
 	},
+	login__inputContainerInputs: { height: 20, borderColor: 'gray', borderWidth: 1 , padding:'20px'},
 };
 export default Login;
