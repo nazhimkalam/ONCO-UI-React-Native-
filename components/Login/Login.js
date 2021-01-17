@@ -11,8 +11,15 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
 	const opacity = useState(new Animated.Value(0.1))[0];
+
 	const [validEmail, setValidEmail] = useState(true);
 	const [validPassword, setValidPassword] = useState(true);
+	const [clickForgetPassword, setClickForgetPassword] = useState(false);
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const [validNewPassword, setValidNewPassword] = useState(true);
+	const [validConfirmPassword, setValidConfirmPassword] = useState(true);
 
 	// this is to update the displayWelcome component after a given time
 	useEffect(() => {
@@ -46,9 +53,9 @@ const Login = () => {
 		if (!email.includes('@')) {
 			setEmail('Invalid Email Format!');
 			setValidEmail(false);
-		} else if(email !== "Enter Email Address!" && email !== "Invalid Email Format!"){
+		} else if (email !== 'Enter Email Address!' && email !== 'Invalid Email Format!') {
 			setValidEmail(true);
-		}else{
+		} else {
 			setValidEmail(false);
 		}
 		// validate the password to be more than or equal to at least 6 characters
@@ -62,9 +69,6 @@ const Login = () => {
 
 	const onClickGoogleLogin = () => {
 		console.log('You Clicked Google Auth Login');
-	};
-	const onClickForgetPassword = () => {
-		console.log('You Clicked forget password');
 	};
 	const onClickSignUp = () => {
 		console.log('You Clicked Sign Up');
@@ -105,41 +109,87 @@ const Login = () => {
 
 						{/* login inputs */}
 						<View style={style.login__inputContainer}>
-							<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
-							<View style={style.login__inputContainerInputsSection}>
-								<PersonIcon />
-								<TextInput
-									style={[style.login__inputContainerInputs, !validEmail && style.invalidTextContent]}
-									onChangeText={(text) => {
-										setEmail(text);
-										setValidEmail(true);
-									}}
-									textContentType="emailAddress"
-									placeholder="Email Address"
-									value={email}
-									onFocus={() => setEmail('')}
-								/>
-							</View>
-							<View style={style.login__inputContainerInputsSection}>
-								<LockIcon />
-								<TextInput
-									style={[style.login__inputContainerInputs, !validPassword && style.invalidTextContent]}
-									onChangeText={(text) => {
-										setPassword(text);
-										setValidPassword(true);
-									}}
-									textContentType="password"
-									placeholder="Password"
-									secureTextEntry={validPassword && true}
-									value={password}
-									onFocus={() => setPassword('')}
-								/>
-							</View>
+							{!clickForgetPassword ? (
+								<>
+									<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
 
-							<Text style={style.login__forgotPasswordLink} onPress={onClickForgetPassword}>
-								Forgot Password?
-							</Text>
+									{/* This is the section when the user didn't click the forget button */}
+									<View style={style.login__inputContainerInputsSection}>
+										<PersonIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validEmail && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setEmail(text);
+												setValidEmail(true);
+											}}
+											textContentType="emailAddress"
+											placeholder="Email Address"
+											value={email}
+											onFocus={() => setEmail('')}
+										/>
+									</View>
+									<View style={style.login__inputContainerInputsSection}>
+										<LockIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validPassword && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setPassword(text);
+												setValidPassword(true);
+											}}
+											textContentType="password"
+											placeholder="Password"
+											secureTextEntry={validPassword && true}
+											value={password}
+											onFocus={() => setPassword('')}
+										/>
+									</View>
+
+									<Text style={style.login__forgotPasswordLink} onPress={() => setClickForgetPassword(true)}>
+										Forgot Password?
+									</Text>
+								</>
+							) : (
+								<>
+									<Text style={style.login__inputContainerLoginDetails}>Change your password</Text>
+
+									{/* This is the section when the user has clicked the forget password section */}
+									<View style={style.login__inputContainerInputsSection}>
+										<LockIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validNewPassword && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setNewPassword(text);
+												setValidNewPassword(true);
+											}}
+											textContentType="password"
+											placeholder="New Password"
+											secureTextEntry={validNewPassword && true}
+											value={newPassword}
+											onFocus={() => setNewPassword('')}
+										/>
+									</View>
+									<View style={style.login__inputContainerInputsSection}>
+										<LockIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validConfirmPassword && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setConfirmPassword(text);
+												setValidConfirmPassword(true);
+											}}
+											textContentType="password"
+											placeholder="Confirm Password"
+											secureTextEntry={validConfirmPassword && true}
+											value={confirmPassword}
+											onFocus={() => setConfirmPassword('')}
+										/>
+									</View>
+									<Text style={style.login__forgotPasswordLink} onPress={() => setClickForgetPassword(false)}>
+										Go back
+									</Text>
+								</>
+							)}
 						</View>
+
 
 						{/* login button */}
 						<View style={{ margin: 10 }}>
