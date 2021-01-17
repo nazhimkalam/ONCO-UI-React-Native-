@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Image, Text, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import LoginWelcome from './LoginWelcome';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import LockIcon from '@material-ui/icons/Lock';
+import PersonIcon from '@material-ui/icons/Person';
 
 const Login = () => {
 	const [displayWelcome, setDisplayWelcome] = useState(false);
@@ -47,19 +47,26 @@ const Login = () => {
 						{/* login inputs */}
 						<View style={style.login__inputContainer}>
 							<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
-							<TextInput
-								style={style.login__inputContainerInputs}
-								onChangeText={(text) => setEmail(text)}
-								textContentType="emailAddress"
-								value={<PersonOutlineOutlinedIcon /> +  " " + email}
-							/>
-							<TextInput
-								style={style.login__inputContainerInputs}
-								onChangeText={(text) => setPassword(text)}
-								textContentType="password"
-								value={password}
-							/>
-							<Text style={{ alignSelf: 'flex-end' }}>Forgot Password?</Text>
+							<View style={style.login__inputContainerInputsSection}>
+								<PersonIcon />
+								<TextInput
+									style={style.login__inputContainerInputs}
+									onChangeText={(text) => setEmail(text)}
+									textContentType="emailAddress"
+									value={email}
+								/>
+							</View>
+							<View style={style.login__inputContainerInputsSection}>
+								<LockIcon />
+								<TextInput
+									style={style.login__inputContainerInputs}
+									onChangeText={(text) => setPassword(text)}
+									textContentType="password"
+									value={password}
+								/>
+							</View>
+
+							<Text style={style.login__forgotPasswordLink}>Forgot Password?</Text>
 						</View>
 
 						{/* login button */}
@@ -111,15 +118,33 @@ const style = {
 		color: '#3f3f3f',
 	},
 	login__inputContainer: {
-		margin: '20px',
+		margin: '30px',
 	},
 	login__inputContainerLoginDetails: {
 		alignSelf: 'center',
-		padding: 10,
+		padding: 12,
 		fontSize: 13,
 		fontWeight: 600,
 		color: '#2c7c8c',
 	},
-	login__inputContainerInputs: { height: 20, borderColor: 'gray', borderWidth: 1 , padding:'20px'},
+	login__inputContainerInputs: {
+		height: 20,
+		color: 'grey',
+		outline: 'none',
+		paddingLeft: '5px',
+		flex: 1,
+	},
+	login__inputContainerInputsSection: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		borderRadius: '40px',
+		flex: 1,
+		margin: '5px',
+		color: 'lightgrey',
+		padding: 18,
+		backgroundColor: 'white',
+		alignItems: 'center',
+	},
+	login__forgotPasswordLink: { alignSelf: 'flex-end', marginRight: 15, marginTop: 5, fontWeight: 600, color: '#2c7c8c' },
 };
 export default Login;
