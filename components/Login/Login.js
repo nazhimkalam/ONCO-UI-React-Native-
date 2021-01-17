@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image, Text, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import LoginWelcome from './LoginWelcome';
 import LockIcon from '@material-ui/icons/Lock';
 import PersonIcon from '@material-ui/icons/Person';
+import React, { useEffect, useState } from 'react';
+import { Animated, Button, Image, SafeAreaView, Text, View } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import LoginWelcome from './LoginWelcome';
 
 const Login = () => {
 	const [displayWelcome, setDisplayWelcome] = useState(true);
-	const [email, setEmail] = useState('Email Address');
-	const [password, setPassword] = useState('Password');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const opacity = useState(new Animated.Value(0.1))[0];
 
 	// this is to update the displayWelcome component after a given time
 	useEffect(() => {
 		setTimeout(() => {
 			setDisplayWelcome(false);
+			// fading animations
+			Animated.timing(opacity, {
+				toValue: 1,
+				duration: 1500,
+			}).start();
 		}, 5000);
 	}, []);
 
@@ -21,14 +27,21 @@ const Login = () => {
 	const onClickGoogleLogin = () => {};
 
 	return (
-		<View style={style.container}>
+		<SafeAreaView style={style.container}>
 			{displayWelcome ? (
 				<>
 					<LoginWelcome />
 				</>
 			) : (
 				<>
-					<View style={style.login__container}>
+					<Animated.View
+						style={{
+							backgroundColor: '#DEF9FF',
+							flex: '1',
+							justifyContent: 'space-between',
+							opacity,
+						}}
+					>
 						{/* header */}
 						<View style={style.login__header}>
 							<Image style={style.logo} source={require('../../assets/oncoAssets/oncoLogo.svg')} />
@@ -36,14 +49,7 @@ const Login = () => {
 
 						{/* welcome back */}
 						<View style={style.login__welcomeBack}>
-							{/* <View style={{ width: '50vw', height: 100, }}>
-								<Image style={style.whiteCloud} source={require('../../assets/oncoAssets/whiteCloud.svg')} />
-								<Image style={style.darkCloud} source={require('../../assets/oncoAssets/darkBlue.svg')} />
-							</View>
-							<View style={{ width: '50vw', height: 150 }}>
-								<Image style={style.lightCloud} source={require('../../assets/oncoAssets/lightBlue.svg')} />
-							</View> */}
-							<Image style={style.whiteCloud} source={require('../../assets/oncoAssets/whiteCloud.svg')} />
+							{/* <Image style={style.whiteCloud} source={require('../../assets/oncoAssets/whiteCloud.svg')} /> */}
 							<Text style={style.login__welcomeBackMessage}>Welcome back!</Text>
 						</View>
 
@@ -56,6 +62,7 @@ const Login = () => {
 									style={style.login__inputContainerInputs}
 									onChangeText={(text) => setEmail(text)}
 									textContentType="emailAddress"
+									placeholder="Email Address"
 									value={email}
 								/>
 							</View>
@@ -65,6 +72,7 @@ const Login = () => {
 									style={style.login__inputContainerInputs}
 									onChangeText={(text) => setPassword(text)}
 									textContentType="password"
+									placeholder="Password"
 									value={password}
 								/>
 							</View>
@@ -94,10 +102,10 @@ const Login = () => {
 								Don't have an account? <span style={style.login__signUp}>Sign Up</span>
 							</Text>
 						</View>
-					</View>
+					</Animated.View>
 				</>
 			)}
-		</View>
+		</SafeAreaView>
 	);
 };
 const style = {
@@ -107,11 +115,12 @@ const style = {
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 	},
-	login__container: {
-		backgroundColor: '#DEF9FF',
-		flex: '1',
-		justifyContent: 'space-between',
-	},
+	// login__container: {
+	// 	backgroundColor: '#DEF9FF',
+	// 	flex: '1',
+	// 	justifyContent: 'space-between',
+	// 	opacity: opacity
+	// },
 	logo: {
 		height: '25px',
 		margin: '55px',
@@ -120,17 +129,9 @@ const style = {
 	login__header: {
 		backgroundColor: '#01CDFA',
 		height: '20vh',
-		// border: '1px black solid',
 	},
-	// whiteCloud: { resizeMode: 'contain', height: 250, width: 250, border: '1px red solid'},
-	// darkCloud: { resizeMode: 'contain', height: 150, border: '1px black solid' },
-	// lightCloud: { resizeMode: 'contain', height: 300, width: 250, border: '1px black solid' },
 	login__welcomeBack: {
-		// flex: 1,
 		alignItems: 'center',
-		// border: '1px black solid',
-		// flexDirection: 'row',
-		// flexWrap: 'wrap',
 	},
 	login__welcomeBackMessage: {
 		fontFamily: 'Arial',
@@ -181,7 +182,6 @@ const style = {
 		overflow: 'hidden',
 	},
 	login__footer: {
-		// border: '1px black solid',
 		position: 'relative',
 		backgroundColor: 'white',
 		bottom: 0,

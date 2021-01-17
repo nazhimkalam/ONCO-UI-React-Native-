@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, View, Animated } from 'react-native';
 
 function LoginWelcome() {
+	// Animation
 	const position = new Animated.ValueXY({ x: 1, y: 1 });
 
 	Animated.timing(position, {
