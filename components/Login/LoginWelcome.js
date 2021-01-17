@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Animated } from 'react-native';
+import { Image, View, Animated, StyleSheet } from 'react-native';
 
 function LoginWelcome() {
 	// Animation
@@ -28,7 +28,7 @@ function LoginWelcome() {
 	);
 }
 
-const style = {
+const style = StyleSheet.create({
 	container: {
 		backgroundColor: '#01CDFA',
 		flex: 1,
@@ -38,5 +38,5 @@ const style = {
 		height: '35px',
 		resizeMode: 'contain',
 	},
-};
+});
 export default LoginWelcome;
