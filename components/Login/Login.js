@@ -90,8 +90,8 @@ const Login = () => {
 
 						{/* Sign Up Footer */}
 						<View style={style.login__footer}>
-							<Text style={{ alignSelf: 'center' }}>
-								Don't have an account? <span>Sign Up</span>
+							<Text style={{ alignSelf: 'center', fontWeight: 600, color: '#2c7c8c' }}>
+								Don't have an account? <span style={style.login__signUp}>Sign Up</span>
 							</Text>
 						</View>
 					</View>
@@ -128,7 +128,7 @@ const style = {
 	login__welcomeBack: {
 		// flex: 1,
 		alignItems: 'center',
-		border: '1px black solid',
+		// border: '1px black solid',
 		// flexDirection: 'row',
 		// flexWrap: 'wrap',
 	},
@@ -183,7 +183,13 @@ const style = {
 	login__footer: {
 		border: '1px black solid',
 		position: 'relative',
+		backgroundColor: 'white',
 		bottom: 0,
+		padding: 15,
+	},
+	login__signUp: {
+		color: '#01CDFA',
+		fontWeight: 700,
 	},
 };
 export default Login;
