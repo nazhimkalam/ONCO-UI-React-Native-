@@ -6,7 +6,7 @@ function LoginWelcome() {
 
 	Animated.timing(position, {
 		toValue: { x: 0.7, y: -100 },
-		duration: 2000,
+		duration: 5000,
 	}).start();
 
 	return (
@@ -29,7 +29,7 @@ function LoginWelcome() {
 
 const style = {
 	container: {
-		backgroundColor: '#00B9F2',
+		backgroundColor: '#01CDFA',
 		flex: 1,
 		paddingTop: '150px',
 	},
