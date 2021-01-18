@@ -12,6 +12,7 @@ const Login = () => {
 	const [username, setUsername] = useState('');
 	const opacity = useState(new Animated.Value(0.1))[0];
 
+	const [validUserName, setValidUserName] = useState('');
 	const [validEmail, setValidEmail] = useState(true);
 	const [validPassword, setValidPassword] = useState(true);
 	const [clickForgetPassword, setClickForgetPassword] = useState(false);
@@ -176,11 +177,30 @@ const Login = () => {
 
 						{/* login inputs */}
 						<View style={style.login__inputContainer}>
-							{!clickForgetPassword ? (
+							{clickedSignUp ? (
+								// THIS SECTION DISPLAYS THE SIGN UP SECTION
 								<>
-									<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
+									<Text style={style.login__inputContainerLoginDetails}>Create your new account</Text>
 
-									{/* This is the section when the user didn't click the forget button */}
+									{/* This is the section when the user has clicked the forget password section */}
+
+									{/* USERNAME */}
+									<View style={style.login__inputContainerInputsSection}>
+										<PersonIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validUserName && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setUsername(text);
+												setValidUserName(true);
+											}}
+											textContentType="name"
+											placeholder="Username"
+											value={username}
+											onFocus={() => setUsername('')}
+										/>
+									</View>
+
+									{/* EMAIL */}
 									<View style={style.login__inputContainerInputsSection}>
 										<PersonIcon />
 										<TextInput
@@ -195,6 +215,49 @@ const Login = () => {
 											onFocus={() => setEmail('')}
 										/>
 									</View>
+
+									{/* PASSWORD */}
+									<View style={style.login__inputContainerInputsSection}>
+										<LockIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validPassword && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setPassword(text);
+												setValidPassword(true);
+											}}
+											textContentType="password"
+											placeholder="Password"
+											secureTextEntry={validPassword && true}
+											value={password}
+											onFocus={() => setPassword('')}
+										/>
+									</View>
+									
+								</>
+							) :  !clickForgetPassword ? (
+								// THIS DISPLAYS THE LOGIN SECTION ON THE APP
+								<>
+									<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
+
+									{/* This is the section when the user didn't click the forget button */}
+
+									{/* EMAIL */}
+									<View style={style.login__inputContainerInputsSection}>
+										<PersonIcon />
+										<TextInput
+											style={[style.login__inputContainerInputs, !validEmail && style.invalidTextContent]}
+											onChangeText={(text) => {
+												setEmail(text);
+												setValidEmail(true);
+											}}
+											textContentType="emailAddress"
+											placeholder="Email Address"
+											value={email}
+											onFocus={() => setEmail('')}
+										/>
+									</View>
+
+									{/* PASSWORD */}
 									<View style={style.login__inputContainerInputsSection}>
 										<LockIcon />
 										<TextInput
@@ -211,15 +274,19 @@ const Login = () => {
 										/>
 									</View>
 
+									{/* FORGOT PASSWORD SECTION */}
 									<Text style={style.login__forgotPasswordLink} onPress={onClickForgotPassword}>
 										Forgot Password?
 									</Text>
 								</>
 							) : (
+								// THIS SECTION DISPLAYS THE CHANGE PASSWORD SECTION ON THE APP
 								<>
 									<Text style={style.login__inputContainerLoginDetails}>Change your password</Text>
 
 									{/* This is the section when the user has clicked the forget password section */}
+
+									{/* NEW PASSWORD */}
 									<View style={style.login__inputContainerInputsSection}>
 										<LockIcon />
 										<TextInput
@@ -235,6 +302,8 @@ const Login = () => {
 											onFocus={() => setNewPassword('')}
 										/>
 									</View>
+
+									{/* CONFIRM PASSWORD */}
 									<View style={style.login__inputContainerInputsSection}>
 										<LockIcon />
 										<TextInput
@@ -250,6 +319,8 @@ const Login = () => {
 											onFocus={() => setConfirmPassword('')}
 										/>
 									</View>
+
+									{/* GO BACK BUTTON */}
 									<Text
 										style={style.login__forgotPasswordLink}
 										onPress={() => {
@@ -267,17 +338,23 @@ const Login = () => {
 							)}
 						</View>
 
-						{/* login button */}
+						{/* MAIN BUTTONS */}
 						<View style={{ margin: 10 }}>
 							{clickForgetPassword ? (
+
+								// CONFIRM BUTTON (FOR CHANGING PASSWORDS)
 								<View style={style.login__buttons}>
 									<Button onPress={onClickConfirmChangePass} title="Confirm" color="#01CDFA" />
 								</View>
 							) : clickedSignUp ? (
+
+								// SIGN UP BUTTON
 								<View style={style.login__buttons}>
 									<Button onPress={onClickSignUp} title="Sign Up" color="#01CDFA" />
 								</View>
-							): (
+							) : (
+
+								// LOGIN BUTTON
 								<View style={style.login__buttons}>
 									<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
 								</View>
@@ -287,7 +364,7 @@ const Login = () => {
 								Or connect using Google
 							</Text>
 
-							{/* Google login */}
+							{/* GOOGLE LOGIN BUTTON */}
 							<View style={style.login__buttonsGOOGLE}>
 								<Button onPress={onClickGoogleLogin} bo title="Google" color="red" />
 							</View>
@@ -297,6 +374,7 @@ const Login = () => {
 						<View style={style.login__footer}>
 							<Text style={{ alignSelf: 'center', fontWeight: 600, color: '#2c7c8c' }}>
 								{!clickedSignUp ? (
+									// SIGN UP SECTION 
 									<>
 										Don't have an account?{' '}
 										<Text
@@ -309,8 +387,8 @@ const Login = () => {
 										</Text>
 									</>
 								) : (
+									// SIGN IN SECTION
 									<>
-										
 										<Text
 											style={style.login__signUp}
 											onPress={() => {
@@ -318,8 +396,8 @@ const Login = () => {
 											}}
 										>
 											Sign In
-										</Text>
-										{" "}to your account.
+										</Text>{' '}
+										to your account.
 									</>
 								)}
 							</Text>
