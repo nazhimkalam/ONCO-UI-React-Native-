@@ -7,7 +7,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import LoginWelcome from './LoginWelcome';
 
 const Login = () => {
-	const [displayWelcome, setDisplayWelcome] = useState(false);
+	const [displayWelcome, setDisplayWelcome] = useState(true);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
@@ -33,7 +33,7 @@ const Login = () => {
 				toValue: 1,
 				duration: 1500,
 			}).start();
-		}, 1000);
+		}, 5000);
 	}, []);
 
 	const onClickLogin = () => {
@@ -82,6 +82,11 @@ const Login = () => {
 	};
 
 	const onClickGoogleLogin = () => {
+
+
+		// HERE GOES GOOGLE AUTH BY FIREBASE
+
+
 		console.log('You Clicked Google Auth Login');
 	};
 	const onClickSignUp = () => {
@@ -157,12 +162,6 @@ const Login = () => {
 		// setUsername('');
 
 		// setClickedSignUp(false);
-	};
-	const onClickRegister = () => {
-		console.log('You Clicked register');
-	};
-	const onClickSignIn = () => {
-		console.log('You Clicked Sign in');
 	};
 
 	const onClickConfirmChangePass = () => {
