@@ -20,6 +20,7 @@ const Login = () => {
 
 	const [validNewPassword, setValidNewPassword] = useState(true);
 	const [validConfirmPassword, setValidConfirmPassword] = useState(true);
+	const [clickedSignUp, setClickedSignUp] = useState(false);
 
 	// this is to update the displayWelcome component after a given time
 	useEffect(() => {
@@ -129,6 +130,8 @@ const Login = () => {
 	};
 
 	const onClickForgotPassword = () => {
+		setClickedSignUp(false);
+
 		let isEmailValidAndPresentInFirebase = true;
 
 		// we set the click forget password to true only when the user has entered valid email stored in the firebase
@@ -255,6 +258,7 @@ const Login = () => {
 											setValidConfirmPassword(true);
 											setValidNewPassword(true);
 											setConfirmPassword('');
+											setClickedSignUp(false);
 										}}
 									>
 										Go back
@@ -269,7 +273,11 @@ const Login = () => {
 								<View style={style.login__buttons}>
 									<Button onPress={onClickConfirmChangePass} title="Confirm" color="#01CDFA" />
 								</View>
-							) : (
+							) : clickedSignUp ? (
+								<View style={style.login__buttons}>
+									<Button onPress={onClickSignUp} title="Sign Up" color="#01CDFA" />
+								</View>
+							): (
 								<View style={style.login__buttons}>
 									<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
 								</View>
@@ -288,10 +296,32 @@ const Login = () => {
 						{/* Sign Up Footer */}
 						<View style={style.login__footer}>
 							<Text style={{ alignSelf: 'center', fontWeight: 600, color: '#2c7c8c' }}>
-								Don't have an account?{' '}
-								<Text style={style.login__signUp} onPress={onClickSignUp}>
-									Sign Up
-								</Text>
+								{!clickedSignUp ? (
+									<>
+										Don't have an account?{' '}
+										<Text
+											style={style.login__signUp}
+											onPress={() => {
+												setClickedSignUp(true);
+											}}
+										>
+											Sign Up
+										</Text>
+									</>
+								) : (
+									<>
+										
+										<Text
+											style={style.login__signUp}
+											onPress={() => {
+												setClickedSignUp(false);
+											}}
+										>
+											Sign In
+										</Text>
+										{" "}to your account.
+									</>
+								)}
 							</Text>
 						</View>
 					</Animated.View>
