@@ -45,20 +45,16 @@ const Login = () => {
 			setPassword('Enter Password!');
 			setValidPassword(false);
 			checkPassword = false;
-
 		} else if (password.length < 6) {
 			setPassword('Enter at least 6 characters!');
 			setValidPassword(false);
 			checkPassword = false;
-
 		} else if (password !== 'Enter at least 6 characters!' && password !== 'Enter Password!') {
 			setValidPassword(true);
 			checkPassword = true;
-
 		} else {
 			setValidPassword(false);
 			checkPassword = false;
-
 		}
 
 		// check for email format but anyways checking will be further done by FIREBASE
@@ -66,7 +62,6 @@ const Login = () => {
 			setEmail('Invalid Email Format!');
 			setValidEmail(false);
 			checkEmail = false;
-			
 		} else {
 			setValidEmail(true);
 			checkEmail = true;
@@ -74,8 +69,6 @@ const Login = () => {
 
 		// NOW WE ARE GOOD TO CHECK WITH FIREBASE AND PROCEED (we can do email validation with firebase as well)
 		if (checkEmail && checkPassword) {
-
-
 			// FIREBASE MAIN CODE GOES HERE!!!
 
 			console.log('You are LOGGING into your account, please hold on...');
@@ -92,7 +85,6 @@ const Login = () => {
 		console.log('You Clicked Google Auth Login');
 	};
 	const onClickSignUp = () => {
-
 		let checkEmail = true;
 		let checkPassword = true;
 		let checkUsername = true;
@@ -111,20 +103,16 @@ const Login = () => {
 
 			setValidPassword(false);
 			checkPassword = false;
-
 		} else if (password.length < 6) {
 			setPassword('Enter at least 6 characters!');
 			setValidPassword(false);
 			checkPassword = false;
-
 		} else if (password !== 'Enter at least 6 characters!' && password !== 'Enter Password!') {
 			setValidPassword(true);
 			checkPassword = true;
-
 		} else {
 			setValidPassword(false);
 			checkPassword = false;
-
 		}
 
 		// check for email format but anyways checking will be further done by FIREBASE
@@ -132,11 +120,9 @@ const Login = () => {
 			setEmail('Invalid Email Format!');
 			setValidEmail(false);
 			checkEmail = false;
-
 		} else if (email !== 'Enter Email Address!' && email !== 'Invalid Email Format!') {
 			setValidEmail(true);
 			checkEmail = true;
-
 		} else {
 			setValidEmail(false);
 			checkEmail = false;
@@ -147,15 +133,12 @@ const Login = () => {
 			setUsername('Enter Username!');
 			setValidUserName(false);
 			checkUsername = false;
-
 		} else if (username !== 'Enter Username') {
 			setValidUserName(true);
 			checkUsername = true;
-
 		} else {
 			setValidUserName(false);
 			checkUsername = false;
-
 		}
 
 		// FIREBASE PART FOR SIGNING UP THE NEW USER
@@ -163,8 +146,14 @@ const Login = () => {
 			console.log('You are signing up your new account, congrats!!!');
 
 			// FIREBASE SIGN UP PART GOES HERE!!!
-			
 		}
+
+		// AFTER ALL THE SIGN UP HAPPENS WE RESET THE INPUT FIELDS AND REDIRECT TO THE LOG IN PAGE
+		setEmail('');
+		setPassword('');
+		setUsername('');
+
+		setClickedSignUp(false);
 	};
 	const onClickRegister = () => {
 		console.log('You Clicked register');
@@ -505,6 +494,7 @@ const Login = () => {
 											style={style.login__signUp}
 											onPress={() => {
 												setClickedSignUp(false);
+												setClickForgetPassword(false);
 											}}
 										>
 											Sign In
