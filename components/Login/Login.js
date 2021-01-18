@@ -1,3 +1,4 @@
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LockIcon from '@material-ui/icons/Lock';
 import PersonIcon from '@material-ui/icons/Person';
 import React, { useEffect, useState } from 'react';
@@ -10,14 +11,14 @@ const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const opacity = useState(new Animated.Value(0.1))[0];
 
-	const [validUserName, setValidUserName] = useState('');
+	const [validUserName, setValidUserName] = useState(true);
 	const [validEmail, setValidEmail] = useState(true);
 	const [validPassword, setValidPassword] = useState(true);
 	const [clickForgetPassword, setClickForgetPassword] = useState(false);
-	const [newPassword, setNewPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const [validNewPassword, setValidNewPassword] = useState(true);
 	const [validConfirmPassword, setValidConfirmPassword] = useState(true);
@@ -36,33 +37,51 @@ const Login = () => {
 	}, []);
 
 	const onClickLogin = () => {
-		// check if the user has filled both email and the password
-		if (!email && !password) {
-			setEmail('Enter Email Address!');
+		let checkEmail = true;
+		let checkPassword = true;
+
+		// check if the user has filled the password
+		if (!password) {
 			setPassword('Enter Password!');
-			setValidEmail(false);
 			setValidPassword(false);
+			checkPassword = false;
+
 		} else if (password.length < 6) {
 			setPassword('Enter at least 6 characters!');
 			setValidPassword(false);
+			checkPassword = false;
+
 		} else if (password !== 'Enter at least 6 characters!' && password !== 'Enter Password!') {
 			setValidPassword(true);
+			checkPassword = true;
+
 		} else {
 			setValidPassword(false);
+			checkPassword = false;
+
 		}
 
 		// check for email format but anyways checking will be further done by FIREBASE
 		if (!email.includes('@')) {
 			setEmail('Invalid Email Format!');
 			setValidEmail(false);
-		} else if (email !== 'Enter Email Address!' && email !== 'Invalid Email Format!') {
-			setValidEmail(true);
+			checkEmail = false;
+			
 		} else {
-			setValidEmail(false);
+			setValidEmail(true);
+			checkEmail = true;
 		}
-		// validate the password to be more than or equal to at least 6 characters
 
-		// then we are good to check with firebase and proceed (we can do email validation with firebase as well)
+		// NOW WE ARE GOOD TO CHECK WITH FIREBASE AND PROCEED (we can do email validation with firebase as well)
+		if (checkEmail && checkPassword) {
+
+
+			// FIREBASE MAIN CODE GOES HERE!!!
+
+			console.log('You are LOGGING into your account, please hold on...');
+			console.log('This is your email: ' + email);
+			console.log('This is your password: ' + password);
+		}
 
 		// once all the firebase stuff is completed we reset the fields
 		// setEmail();
@@ -73,7 +92,79 @@ const Login = () => {
 		console.log('You Clicked Google Auth Login');
 	};
 	const onClickSignUp = () => {
-		console.log('You Clicked Sign Up');
+
+		let checkEmail = true;
+		let checkPassword = true;
+		let checkUsername = true;
+
+		// we have to check if all the 3 fields (username, email, password) are all filled
+		if (!username && !password && !email) {
+			setEmail('Enter Email Address!');
+			setUsername('Enter Username!');
+			setPassword('Enter Password!');
+
+			setValidEmail(false);
+			checkEmail = false;
+
+			setValidUserName(false);
+			checkUsername = false;
+
+			setValidPassword(false);
+			checkPassword = false;
+
+		} else if (password.length < 6) {
+			setPassword('Enter at least 6 characters!');
+			setValidPassword(false);
+			checkPassword = false;
+
+		} else if (password !== 'Enter at least 6 characters!' && password !== 'Enter Password!') {
+			setValidPassword(true);
+			checkPassword = true;
+
+		} else {
+			setValidPassword(false);
+			checkPassword = false;
+
+		}
+
+		// check for email format but anyways checking will be further done by FIREBASE
+		if (!email.includes('@')) {
+			setEmail('Invalid Email Format!');
+			setValidEmail(false);
+			checkEmail = false;
+
+		} else if (email !== 'Enter Email Address!' && email !== 'Invalid Email Format!') {
+			setValidEmail(true);
+			checkEmail = true;
+
+		} else {
+			setValidEmail(false);
+			checkEmail = false;
+		}
+
+		// VALIDATION for the USERNAME
+		if (!username) {
+			setUsername('Enter Username!');
+			setValidUserName(false);
+			checkUsername = false;
+
+		} else if (username !== 'Enter Username') {
+			setValidUserName(true);
+			checkUsername = true;
+
+		} else {
+			setValidUserName(false);
+			checkUsername = false;
+
+		}
+
+		// FIREBASE PART FOR SIGNING UP THE NEW USER
+		if (checkEmail && checkPassword && checkUsername) {
+			console.log('You are signing up your new account, congrats!!!');
+
+			// FIREBASE SIGN UP PART GOES HERE!!!
+			
+		}
 	};
 	const onClickRegister = () => {
 		console.log('You Clicked register');
@@ -93,14 +184,11 @@ const Login = () => {
 		} else if (newPassword.length < 6) {
 			setNewPassword('Enter at least 6 characters!');
 			setValidNewPassword(false);
-		} else if (confirmPassword.length < 6) {
-			setConfirmPassword('Enter at least 6 characters!');
-			setValidConfirmPassword(false);
 		} else if (newPassword !== confirmPassword) {
 			setConfirmPassword('Invalid Confirm Password!');
 			setValidConfirmPassword(false);
 		} else {
-			// This means all good to go
+			// This means all good to go (BOTH NEW PASSWORD AND CONFIRM PASSWORD ARE EQUAL)
 
 			// displays an alert on if any errors occurred or success message
 			Alert.alert(
@@ -186,7 +274,7 @@ const Login = () => {
 
 									{/* USERNAME */}
 									<View style={style.login__inputContainerInputsSection}>
-										<PersonIcon />
+										<AccountCircleIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validUserName && style.invalidTextContent]}
 											onChangeText={(text) => {
@@ -196,7 +284,11 @@ const Login = () => {
 											textContentType="name"
 											placeholder="Username"
 											value={username}
-											onFocus={() => setUsername('')}
+											onFocus={() => {
+												if (!validUserName) {
+													setUsername('');
+												}
+											}}
 										/>
 									</View>
 
@@ -212,7 +304,11 @@ const Login = () => {
 											textContentType="emailAddress"
 											placeholder="Email Address"
 											value={email}
-											onFocus={() => setEmail('')}
+											onFocus={() => {
+												if (!validEmail) {
+													setEmail('');
+												}
+											}}
 										/>
 									</View>
 
@@ -229,12 +325,15 @@ const Login = () => {
 											placeholder="Password"
 											secureTextEntry={validPassword && true}
 											value={password}
-											onFocus={() => setPassword('')}
+											onFocus={() => {
+												if (!validPassword) {
+													setPassword('');
+												}
+											}}
 										/>
 									</View>
-									
 								</>
-							) :  !clickForgetPassword ? (
+							) : !clickForgetPassword ? (
 								// THIS DISPLAYS THE LOGIN SECTION ON THE APP
 								<>
 									<Text style={style.login__inputContainerLoginDetails}>Log in to your existing account</Text>
@@ -253,7 +352,11 @@ const Login = () => {
 											textContentType="emailAddress"
 											placeholder="Email Address"
 											value={email}
-											onFocus={() => setEmail('')}
+											onFocus={() => {
+												if (!validEmail) {
+													setEmail('');
+												}
+											}}
 										/>
 									</View>
 
@@ -270,7 +373,11 @@ const Login = () => {
 											placeholder="Password"
 											secureTextEntry={validPassword && true}
 											value={password}
-											onFocus={() => setPassword('')}
+											onFocus={() => {
+												if (!validPassword) {
+													setPassword('');
+												}
+											}}
 										/>
 									</View>
 
@@ -299,7 +406,11 @@ const Login = () => {
 											placeholder="New Password"
 											secureTextEntry={validNewPassword && true}
 											value={newPassword}
-											onFocus={() => setNewPassword('')}
+											onFocus={() => {
+												if (!validNewPassword) {
+													setNewPassword('');
+												}
+											}}
 										/>
 									</View>
 
@@ -316,7 +427,11 @@ const Login = () => {
 											placeholder="Confirm Password"
 											secureTextEntry={validConfirmPassword && true}
 											value={confirmPassword}
-											onFocus={() => setConfirmPassword('')}
+											onFocus={() => {
+												if (!validConfirmPassword) {
+													setConfirmPassword('');
+												}
+											}}
 										/>
 									</View>
 
@@ -341,19 +456,16 @@ const Login = () => {
 						{/* MAIN BUTTONS */}
 						<View style={{ margin: 10 }}>
 							{clickForgetPassword ? (
-
 								// CONFIRM BUTTON (FOR CHANGING PASSWORDS)
 								<View style={style.login__buttons}>
 									<Button onPress={onClickConfirmChangePass} title="Confirm" color="#01CDFA" />
 								</View>
 							) : clickedSignUp ? (
-
 								// SIGN UP BUTTON
 								<View style={style.login__buttons}>
 									<Button onPress={onClickSignUp} title="Sign Up" color="#01CDFA" />
 								</View>
 							) : (
-
 								// LOGIN BUTTON
 								<View style={style.login__buttons}>
 									<Button onPress={onClickLogin} title="Login" color="#01CDFA" />
@@ -374,7 +486,7 @@ const Login = () => {
 						<View style={style.login__footer}>
 							<Text style={{ alignSelf: 'center', fontWeight: 600, color: '#2c7c8c' }}>
 								{!clickedSignUp ? (
-									// SIGN UP SECTION 
+									// SIGN UP SECTION
 									<>
 										Don't have an account?{' '}
 										<Text
