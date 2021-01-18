@@ -90,26 +90,25 @@ const Login = () => {
 		let checkUsername = true;
 
 		// we have to check if all the 3 fields (username, email, password) are all filled
-		if (!username && !password && !email) {
+		if (!password && !email) {
 			setEmail('Enter Email Address!');
-			setUsername('Enter Username!');
 			setPassword('Enter Password!');
 
 			setValidEmail(false);
 			checkEmail = false;
 
-			setValidUserName(false);
-			checkUsername = false;
-
 			setValidPassword(false);
 			checkPassword = false;
+
 		} else if (password.length < 6) {
 			setPassword('Enter at least 6 characters!');
 			setValidPassword(false);
 			checkPassword = false;
+
 		} else if (password !== 'Enter at least 6 characters!' && password !== 'Enter Password!') {
 			setValidPassword(true);
 			checkPassword = true;
+
 		} else {
 			setValidPassword(false);
 			checkPassword = false;
@@ -120,12 +119,15 @@ const Login = () => {
 			setEmail('Invalid Email Format!');
 			setValidEmail(false);
 			checkEmail = false;
+
 		} else if (email !== 'Enter Email Address!' && email !== 'Invalid Email Format!') {
 			setValidEmail(true);
 			checkEmail = true;
+
 		} else {
 			setValidEmail(false);
 			checkEmail = false;
+
 		}
 
 		// VALIDATION for the USERNAME
@@ -133,7 +135,8 @@ const Login = () => {
 			setUsername('Enter Username!');
 			setValidUserName(false);
 			checkUsername = false;
-		} else if (username !== 'Enter Username') {
+
+		} else if (username !== 'Enter Username!') {
 			setValidUserName(true);
 			checkUsername = true;
 		} else {
@@ -149,11 +152,11 @@ const Login = () => {
 		}
 
 		// AFTER ALL THE SIGN UP HAPPENS WE RESET THE INPUT FIELDS AND REDIRECT TO THE LOG IN PAGE
-		setEmail('');
-		setPassword('');
-		setUsername('');
+		// setEmail('');
+		// setPassword('');
+		// setUsername('');
 
-		setClickedSignUp(false);
+		// setClickedSignUp(false);
 	};
 	const onClickRegister = () => {
 		console.log('You Clicked register');
@@ -170,14 +173,19 @@ const Login = () => {
 			setConfirmPassword('Enter Confirm New Password!');
 			setValidNewPassword(false);
 			setValidConfirmPassword(false);
+
 		} else if (newPassword.length < 6) {
 			setNewPassword('Enter at least 6 characters!');
 			setValidNewPassword(false);
+
 		} else if (newPassword !== confirmPassword) {
 			setConfirmPassword('Invalid Confirm Password!');
 			setValidConfirmPassword(false);
+
 		} else {
 			// This means all good to go (BOTH NEW PASSWORD AND CONFIRM PASSWORD ARE EQUAL)
+			console.log("This is your new password: " + password);
+			console.log("This is your confirm password: " + confirmPassword);
 
 			// displays an alert on if any errors occurred or success message
 			Alert.alert(
@@ -199,11 +207,11 @@ const Login = () => {
 			);
 
 			// redirecting when the password is RESET!
-			setClickForgetPassword(false);
-			setNewPassword('');
-			setValidConfirmPassword(true);
-			setValidNewPassword(true);
-			setConfirmPassword('');
+			// setClickForgetPassword(false);
+			// setNewPassword('');
+			// setValidConfirmPassword(true);
+			// setValidNewPassword(true);
+			// setConfirmPassword('');
 		}
 	};
 
@@ -262,7 +270,13 @@ const Login = () => {
 									{/* This is the section when the user has clicked the forget password section */}
 
 									{/* USERNAME */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validUserName && style.redField,
+											validUserName && style.blueField,
+										]}
+									>
 										<AccountCircleIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validUserName && style.invalidTextContent]}
@@ -282,7 +296,13 @@ const Login = () => {
 									</View>
 
 									{/* EMAIL */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validEmail && style.redField,
+											validEmail && style.blueField,
+										]}
+									>
 										<PersonIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validEmail && style.invalidTextContent]}
@@ -302,7 +322,13 @@ const Login = () => {
 									</View>
 
 									{/* PASSWORD */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validPassword && style.redField,
+											validPassword && style.blueField,
+										]}
+									>
 										<LockIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validPassword && style.invalidTextContent]}
@@ -330,7 +356,13 @@ const Login = () => {
 									{/* This is the section when the user didn't click the forget button */}
 
 									{/* EMAIL */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validEmail && style.redField,
+											validEmail && style.blueField,
+										]}
+									>
 										<PersonIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validEmail && style.invalidTextContent]}
@@ -350,7 +382,13 @@ const Login = () => {
 									</View>
 
 									{/* PASSWORD */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validPassword && style.redField,
+											validPassword && style.blueField,
+										]}
+									>
 										<LockIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validPassword && style.invalidTextContent]}
@@ -383,7 +421,13 @@ const Login = () => {
 									{/* This is the section when the user has clicked the forget password section */}
 
 									{/* NEW PASSWORD */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validNewPassword && style.redField,
+											validNewPassword && style.blueField,
+										]}
+									>
 										<LockIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validNewPassword && style.invalidTextContent]}
@@ -404,7 +448,13 @@ const Login = () => {
 									</View>
 
 									{/* CONFIRM PASSWORD */}
-									<View style={style.login__inputContainerInputsSection}>
+									<View
+										style={[
+											style.login__inputContainerInputsSection,
+											!validConfirmPassword && style.redField,
+											validConfirmPassword && style.blueField,
+										]}
+									>
 										<LockIcon />
 										<TextInput
 											style={[style.login__inputContainerInputs, !validConfirmPassword && style.invalidTextContent]}
@@ -482,6 +532,12 @@ const Login = () => {
 											style={style.login__signUp}
 											onPress={() => {
 												setClickedSignUp(true);
+												setEmail('');
+												setValidEmail(true);
+												setPassword('');
+												setValidPassword(true);
+												setUsername('');
+												setValidUserName(true);
 											}}
 										>
 											Sign Up
@@ -495,6 +551,12 @@ const Login = () => {
 											onPress={() => {
 												setClickedSignUp(false);
 												setClickForgetPassword(false);
+												setEmail('');
+												setValidEmail(true);
+												setPassword('');
+												setValidPassword(true);
+												setUsername('');
+												setValidUserName(true);
 											}}
 										>
 											Sign In
@@ -537,6 +599,14 @@ const style = StyleSheet.create({
 	},
 	login__inputContainer: {
 		margin: '30px',
+	},
+	redField: {
+		borderColor: 'red',
+		borderWidth: 1,
+	},
+	blueField: {
+		borderWidth: 1,
+		borderColor: '#01CDFA',
 	},
 	login__inputContainerLoginDetails: {
 		alignSelf: 'center',
